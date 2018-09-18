@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div class="home-play">
-            <el-carousel trigger="click" height="800px" interval="3000" :autoplay="false">
+            <el-carousel trigger="click" height="800px" :interval="3000" :autoplay="false">
                 <el-carousel-item v-for="item in imgs" :key="item">
                     <div class="img-background">
                         <img :src="item" alt="" width="1200" class="img" height="800px">
@@ -60,6 +60,7 @@
         &-product {
             width: 1200px;
             margin: 0px auto;
+            margin-bottom: 50px;
             a {
                 height: 400px;
                 display: inline-block;
@@ -75,7 +76,7 @@
                 }
                 
                 &:nth-child(1){
-                    background: url("../assets/img/home-2.png") no-repeat;
+                    background: url("../assets/img/home-2.png") ;
                     
                 }
                 &:nth-child(2){
