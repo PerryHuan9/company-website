@@ -8,8 +8,8 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path:'/',
-            redirect:'/home'
+            path: '/',
+            redirect: '/home'
         },
         {
             path: '/home',
@@ -19,7 +19,21 @@ export default new Router({
         {
             path: '/product',
             name: 'product',
-            component: () => import('./views/Product.vue')
+            redirect:'/product/airplane',
+            component: () => import('./views/Product.vue'),
+            children: [
+                {
+                    path: 'airplane',
+                    name: 'airplane',
+                    component: () => import('./components/ProductAirplane.vue'),
+                },
+                {
+                    path: 'airship',
+                    name: 'airship',
+                    component: () => import('./components/ProductAirship.vue'),
+                }
+
+            ]
         },
         {
             path: '/service',

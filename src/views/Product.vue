@@ -1,6 +1,6 @@
 <template>
-    <div>
-        我是产品
+    <div class="product">
+        <router-view></router-view>
     </div>
 </template>
 
@@ -10,6 +10,9 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .product {
+    }
+
 
 </style>
