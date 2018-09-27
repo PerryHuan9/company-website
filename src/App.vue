@@ -2,29 +2,57 @@
     <div id="app">
         <nav class="nav">
             <div class="nav-container">
-                <span class="logo"><img src="./assets/img/logo.png" alt=""></span>
-                <el-menu
-                        :default-active="activeIndex2"
-                        class="nav-el-menu"
-                        mode="horizontal"
-                        @select="handleSelect"
-                        background-color="#545c6400"
-                        text-color="#fff"
-                        :router="true"
-                        active-text-color="#fff">
-                    <el-menu-item index="/home">Home</el-menu-item>
-                    <el-submenu index="/product">
-                        <template slot="title">Product</template>
-                        <el-menu-item index="/product/airplane">六轴位无人机</el-menu-item>
-                        <el-menu-item index="/product/airship">无人飞艇</el-menu-item>
-                    </el-submenu>
-                    <el-menu-item index="/service">Service</el-menu-item>
-                    <el-menu-item index="/about">About</el-menu-item>
-                    <el-menu-item index="/contact">Contact</el-menu-item>
-                </el-menu>
-            
+                <div class="nav-container-logo">
+                    <img src="/img/logo-white.png">
+                </div>
+                <div class="nav-container-menu">
+                    <ul>
+                        <li>
+                            <router-link to="/home">{{isChinese?'主页':'Home'}}</router-link>
+                        </li>
+                        <li @mouseover="productOpen" @mouseout="productOpen" class="product-menu">
+                            <router-link to="/product">{{isChinese?'产品':'Product'}} <i
+                                    :class="isOpened?'el-icon-arrow-up':'el-icon-arrow-down'"></i></router-link>
+                            <ul class="product-detail" v-show="isOpened">
+                                <li>
+                                    <router-link to="/product/airplane">{{isChinese?'六轴无人机':'Six-axis UAV'}}
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <router-link to="/product/airship">{{isChinese?'无人飞艇':'Unmanned Airship'}}
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <router-link to="/service">{{isChinese?'服务':'Service'}}</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/about">{{isChinese?'关于':'About'}}</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/contact">{{isChinese?'联系':'Contact'}}</router-link>
+                        </li>
+                    
+                    
+                    </ul>
+                
+                
+                </div>
+                <div @mouseover="languageOpen" @mouseout="languageOpen" class="nav-container-language">
+                    <a>Language <i class="el-icon-caret-bottom"></i></a>
+                    <ul class="product-detail" v-show="isLanOpened">
+                        <li>
+                            <a @click="convertToEnglish">English</a>
+                        </li>
+                        <li>
+                            <a @click="convertToChinese">中文</a>
+                        </li>
+                    </ul>
+                </div>
             
             </div>
+        
         </nav>
         <router-view class="main"></router-view>
         
@@ -32,17 +60,21 @@
             <div class="footer-container">
                 <div class="footer-container-list">
                     <ul>
-                        <li><span>PRODUCTS</span></li>
-                        <li><a href="">六轴无人机</a></li>
-                        <li><a href="">无人飞艇</a></li>
+                        <li><span>{{isChinese?'产品':'PRODUCT'}}</span></li>
+                        <li>
+                            <router-link to="/product/airplane">{{isChinese?'六轴无人机':'Six-axis UAV'}}</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/product/airship">{{isChinese?'无人飞艇':'Unmanned Airship'}}</router-link>
+                        </li>
                     </ul>
                     <ul>
-                        <li><span>ABOUT</span></li>
-                        <li><a href="">Company</a></li>
-                        <li><a href="">Careers</a></li>
+                        <li><span>{{isChinese?'关于':'ABOUT'}}</span></li>
+                        <li><a href="">{{isChinese?'公司':'Company'}}</a></li>
+                        <li><a href="">{{isChinese?'事业':'Careers'}}</a></li>
                     </ul>
                     <ul>
-                        <li><span>CONTACT</span></li>
+                        <li><span>{{isChinese?'联系':'CONTACT'}}</span></li>
                         <li><a>Tel:0769-12345678</a></li>
                         <li><a href="">Fac:0769-112345678</a></li>
                         <li><a href="">Address:东莞市松山湖大学创新城B1栋</a></li>
@@ -69,17 +101,37 @@
 </template>
 
 <script>
+    import {LANGUAGE} from "./store";
+
     export default {
         data(){
             return {
-                activeIndex: '1',
-                activeIndex2: '1'
+                isOpened: false,
+                isLanOpened: false,
             };
         },
         methods: {
-            handleSelect(key, keyPath){
-                console.log(key, keyPath);
+            productOpen(e){
+                this.isOpened = !this.isOpened;
+            },
+            languageOpen(){
+                this.isLanOpened = !this.isLanOpened;
+            },
+            convertToEnglish(){
+                this.$store.commit(LANGUAGE, false);
+
+
+            },
+            convertToChinese(){
+                this.$store.commit(LANGUAGE, true);
             }
+
+        },
+        computed: {
+            isChinese(){+
+                return this.$store.state.isChinese;
+            }
+
         }
     }
 
@@ -93,19 +145,116 @@
             height: 60px;
             z-index: 100;
             top: 0px;
-            background: rgba(20, 18, 35, 0.06);
+            /*background: rgba(20, 18, 35, 0.16);*/
+            background-color: rgba(240, 248, 255, 0.18);
             &-container {
                 margin: 0px auto;
                 width: 1200px;
-                
-                .logo {
+                position: relative;
+                &-logo {
                     float: left;
-                    padding-top: 17px;
+                    img {
+                        position: relative;
+                        line-height: 60px;
+                        top: 16px;
+                        height: 30px;
+                        margin-left: 30px;
+                    }
+                    
                 }
-                .nav-el-menu {
+                &-menu > ul {
                     float: right;
-                    border: none;
-                
+                    & > li {
+                        display: inline-block;
+                        line-height: 60px;
+                        text-align: center;
+                        .router-link-active {
+                            border-bottom: 1px red solid;
+                        }
+                        
+                        & > a {
+                            height: 60px;
+                            display: block;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                            text-decoration: none;
+                            color: white;
+                            border: 0px;
+                            outline: none;
+                        }
+                        &:hover {
+                            background: rgba(17, 10, 13, 0.33);
+                        }
+                        
+                    }
+                    /*product菜单有下拉效果*/
+                    li.product-menu {
+                        position: relative;
+                        transition: 1s;
+                        ul {
+                            position: absolute;
+                            background: rgba(170, 170, 170, 0.23);
+                            left: 0px;
+                            right: 0px;
+                            li {
+                                padding-left: 0px;
+                                padding-right: 0px;
+                                font-size: 12px;
+                                display: block;
+                                & > a {
+                                    height: 50px;
+                                    display: block;
+                                    text-decoration: none;
+                                    color: white;
+                                    line-height: 50px;
+                                    border: 0px;
+                                    outline: none;
+                                }
+                                &:hover {
+                                    background: rgba(17, 10, 13, 0.33);
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                &-language {
+                    position: absolute;
+                    right: 50px;
+                    right: -120px;
+                    line-height: 60px;
+                    width: 100px;
+                    text-align: center;
+                    a {
+                        color: white;
+                        font-size: 12px;
+                        text-decoration: none;
+                    }
+                    ul {
+                        position: absolute;
+                        background: rgba(170, 170, 170, 0.23);
+                        left: 0px;
+                        right: 0px;
+                        li {
+                            font-size: 12px;
+                            width: 100px;
+                            display: block;
+                            line-height: 40px;
+                            & > a {
+                                height: 40px;
+                                display: block;
+                                text-decoration: none;
+                                color: white;
+                                border: 0px;
+                                outline: none;
+                            }
+                            &:hover {
+                                background: rgba(17, 10, 13, 0.33);
+                            }
+                        }
+                        
+                    }
                 }
                 
             }
@@ -170,9 +319,9 @@
         }
         
     }
-    
-    .el-menu-item {
-        text-align: center;
-        
-    }
 </style>
+<style>
+
+
+</style>
+

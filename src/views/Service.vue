@@ -2,7 +2,7 @@
     <div class="about">
         <div class="service-head">
             <img src="/img/service-head.jpeg" alt="" width="100%" height="750px">
-            <div><h1>SERVICE</h1></div>
+            <div><h1>{{isChinese?'服务':'SERVICE'}}</h1></div>
         </div>
         <div class="service-content">
             <div class="service-content-description">
@@ -38,7 +38,14 @@
 
 <script>
     export default {
-        name: "Service"
+        computed:{
+            isChinese(){
+                return this.$store.state.isChinese;
+            }
+        
+        }
+    
+    
     }
 </script>
 

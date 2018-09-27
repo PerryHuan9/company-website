@@ -4,8 +4,15 @@ import Router from 'vue-router'
 Vue.use(Router);
 
 export default new Router({
-    mode: 'history',
+    // mode: 'history',
     base: process.env.BASE_URL,
+    scrollBehavior(to, from, savedPosition){
+        if(savedPosition){
+            return savedPosition;
+        } else{
+            return {x: 0, y: 0}
+        }
+    },
     routes: [
         {
             path: '/',
@@ -19,7 +26,7 @@ export default new Router({
         {
             path: '/product',
             name: 'product',
-            redirect:'/product/airplane',
+            redirect: '/product/airplane',
             component: () => import('./views/Product.vue'),
             children: [
                 {
