@@ -91,10 +91,12 @@
                     h3 {
                         position: relative;
                         color: white;
-                        font-size: 2.5em;
                         text-align: center;
-                        top: -300px;
+                        font-size: 2.5em;
+                        /*left: 25%;*/
+                        /*top: 40%;*/
                         z-index: 100;
+                        margin-top: -300px;
                     }
                     
                 }

@@ -19,7 +19,7 @@
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/product/airship">{{isChinese?'无人飞艇':'Unmanned Airship'}}
+                                    <router-link to="/product/airship">{{isChinese?'平流层飞艇':'Stratospheric Airship'}}
                                     </router-link>
                                 </li>
                             </ul>
@@ -65,7 +65,7 @@
                             <router-link to="/product/airplane">{{isChinese?'六轴无人机':'Six-axis UAV'}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/product/airship">{{isChinese?'无人飞艇':'Unmanned Airship'}}</router-link>
+                            <router-link to="/product/airship">{{isChinese?'平流层飞艇':'Stratospheric Airship'}}</router-link>
                         </li>
                     </ul>
                     <ul>
@@ -111,7 +111,7 @@
             };
         },
         methods: {
-            productOpen(e){
+            productOpen(){
                 this.isOpened = !this.isOpened;
             },
             languageOpen(){
@@ -128,7 +128,7 @@
 
         },
         computed: {
-            isChinese(){+
+            isChinese(){
                 return this.$store.state.isChinese;
             }
 
@@ -141,12 +141,11 @@
     #app {
         .nav {
             width: 100%;
-            position: fixed;
+            position: absolute;
             height: 60px;
             z-index: 100;
             top: 0px;
-            /*background: rgba(20, 18, 35, 0.16);*/
-            background-color: rgba(240, 248, 255, 0.18);
+            background: rgba(20, 18, 35, 0.16);
             &-container {
                 margin: 0px auto;
                 width: 1200px;
@@ -155,7 +154,7 @@
                     float: left;
                     img {
                         position: relative;
-                        line-height: 60px;
+                        line-height: 62px;
                         top: 16px;
                         height: 30px;
                         margin-left: 30px;
@@ -201,6 +200,10 @@
                                 padding-right: 0px;
                                 font-size: 12px;
                                 display: block;
+                                .router-link-active {
+                                    background-color: rgba(120, 128, 126, 0.36);
+                                }
+                                
                                 & > a {
                                     height: 50px;
                                     display: block;
@@ -223,7 +226,7 @@
                     position: absolute;
                     right: 50px;
                     right: -120px;
-                    line-height: 60px;
+                    line-height: 55px;
                     width: 100px;
                     text-align: center;
                     a {

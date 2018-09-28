@@ -12,23 +12,31 @@
                 <p>Address:东莞市松山湖大学创新城B1栋</p>
             </div>
             <div class="contact-content-form">
-                <el-form ref="form" :model="form">
+                <el-form ref="form" :model="form" :rules="rules">
                     <el-form-item>
                         <el-col :span="11">
-                            <el-input v-model="name" placeholder="Name"></el-input>
+                            <el-form-item prop="name">
+                                <el-input name="name" v-model="form.name" placeholder="Name"></el-input>
+                            </el-form-item>
                         </el-col>
                         <el-col :span="13">
-                            <el-input v-model="email" placeholder="Email Address"></el-input>
+                            <el-form-item prop="email">
+                                <el-input name="email" v-model="form.email" placeholder="Email Address"></el-input>
+                            </el-form-item>
                         </el-col>
                     </el-form-item>
-                    <el-form-item>
-                        <el-input v-model="subject" placeholder="Subject"></el-input>
+                    <el-form-item prop="subject">
+                        <el-input name="subject" v-model="form.subject" placeholder="Subject"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="message">
+                        <el-input name="message" type="textarea" v-model="form.message"
+                                  placeholder="Message"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-input type="textarea" v-model="message" placeholder="Message"></el-input>
+                        <el-button class="button" type="info" @click="handleSubmit">{{isChinese?'发送':'Send'}}
+                        </el-button>
                     </el-form-item>
                 </el-form>
-            
             </div>
         
         </div>
@@ -40,18 +48,53 @@
 <script>
     export default {
         data(){
+            const validateEmail = (rule, value, cb) =>{
+                if(value === ""){
+                    cb(this.isChinese ? '请输入email' : 'Please input your email');
+                } else if(!this.isvalidEmail(value)){
+                    cb(this.isChinese ? '请输入正确的email' : 'Please input correct email');
+                } else{
+                    cb();
+                }
+            };
+            const validateName=(rules, value,cb)=>{
+            
+            };
             return {
-                name: '',
-                email: '',
-                subject: '',
-                message: '',
-                form:null,
+                
+                form: {
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: '',
+                },
+                rules: {
+                    name: [{required: true, trigger: 'blur', message:'请输入名字'}],
+                    email: [{required: true, trigger: "blur", validator: validateEmail}],
+                    subject: [{required: true, trigger: 'blur', message: '请输入主题' }],
+                    message:[{required:true,trigger:'blur',message:'请输入信息'}],
+
+                }
             }
         },
         mounted(){
             this.initMap();
         },
         methods: {
+            //邮箱地址判断
+            isvalidEmail(str){
+                const reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+                return reg.test(str)
+            },
+            handleSubmit(){
+                this.$refs.form.validate(valid =>{
+                    if(valid){
+                        alert('一切正常');
+
+                    }
+
+                })
+            },
             initMap(){
                 let map = new BMap.Map("baidu-map");    // 创建Map实例
                 let point = new BMap.Point(113.871326, 22.907438);
@@ -76,7 +119,7 @@
                 marker.setLabel(label);
             },
         },
-         computed:{
+        computed: {
             isChinese(){
                 return this.$store.state.isChinese;
             }
@@ -132,14 +175,16 @@
                 
             }
             &-form {
-                width: 1200px;
+                width: 800px;
                 margin: 100px auto;
                 .el-form-item {
+                    .button {
+                        float: right;
+                        background: rgb(56, 60, 60);
+                    }
+                    
+                }
                 
-                }
-                .el-col{
-                    /*margin-left: 30px;*/
-                }
             }
             
         }
@@ -156,32 +201,18 @@
     }
     
     .el-input__inner {
+        color: white;
         height: 50px;
-        background: rgb(227, 227, 227);
+        background: rgb(56, 60, 60);
     }
     
     .el-textarea__inner {
-        height: 100px;
-        background: rgb(227, 227, 227);
+        color: white;
+        resize: none;
+        max-height: 130px;
+        min-height: 130px;
+        background: rgb(56, 60, 60);
     }
-    
-    /*input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {*/
-        /*!* WebKit browsers *!*/
-        /*color: #661326;*/
-    /*}*/
-    /*input:-moz-placeholder, textarea:-moz-placeholder {*/
-        /*!* Mozilla Firefox 4 to 18 *!*/
-        /*color: #66162b;*/
-    /*}*/
-    /*input::-moz-placeholder, textarea::-moz-placeholder {*/
-        /*!* Mozilla Firefox 19+ *!*/
-        /*color: #661614;*/
-    /*}*/
-    /*input:-ms-input-placeholder, textarea:-ms-input-placeholder {*/
-        /*!* Internet Explorer 10+ *!*/
-        /*color: #66060c;*/
-    /*}*/
-
 
 
 </style>

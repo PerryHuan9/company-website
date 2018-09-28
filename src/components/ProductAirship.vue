@@ -1,11 +1,12 @@
 <template>
     <div class="airplane">
         <div class="airplane-head">
-            <img src="/img/home-1.jpg" alt="" width="100%" height="750px">
+            <img src="/img/airship-1.jpg" alt="" width="100%" height="750px">
+            <h1>平流层飞艇<br>Stratospheric Airship</h1>
         </div>
         <div class="airplane-content">
             <div class="airplane-content-introduce">
-                <img src="/img/home-2.jpg" alt="" class="airplane-photo">
+                <img src="/img/airship-2.jpg" alt="" class="airplane-photo">
                 <h2>无人飞艇</h2>
                 <p>
                     六轴无人机的介绍al;dalska美金考拉上电脑卡了是你的阿达说的金卡和圣诞节卡的还是
@@ -70,6 +71,14 @@
 <style lang="scss" scoped>
     .airplane {
         &-head {
+            h1 {
+                position: relative;
+                text-align: center;
+                color: white;
+                top: -500px;
+                font-size: 40px;
+            }
+            
         }
         &-content {
             &-introduce {
@@ -118,6 +127,7 @@
                             margin-right: 72px;
                         }
                         h3 {
+                            font-size: 28px;
                             color: white;
                             position: relative;
                             top: -50%;
